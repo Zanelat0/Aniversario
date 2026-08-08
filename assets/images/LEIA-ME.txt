@@ -1,0 +1,11 @@
+Coloque aqui as fotos pessoais usadas no site.
+
+Nomes prontos para uso:
+foto01.jpg
+foto02.jpg
+foto03.jpg
+foto04.jpg
+foto05.jpg
+foto06.jpg
+
+Se preferir outros nomes ou formatos, altere a lista memories no arquivo js/script.js.

@@ -1,0 +1,3 @@
+No momento, o site toca a playlist pelos players oficiais do Spotify.
+
+Esta pasta fica disponível apenas se o projeto receber uma versão futura com áudios locais autorizados.
