@@ -18,11 +18,25 @@
   </div>
 
   <section id="giftGate" class="gift-gate" aria-labelledby="giftTitle">
+    <span class="gift-gate__particle gift-gate__particle--one" aria-hidden="true"></span>
+    <span class="gift-gate__particle gift-gate__particle--two" aria-hidden="true"></span>
+    <span class="gift-gate__particle gift-gate__particle--three" aria-hidden="true"></span>
+    <span class="gift-gate__particle gift-gate__particle--four" aria-hidden="true"></span>
     <div class="gift-gate__content">
-      <p class="eyebrow">Uma surpresa feita com carinho</p>
-      <h1 id="giftTitle">Antes de<br>começar...</h1>
-      <p class="gift-gate__lead">Tem uma pequena viagem<br>esperando por você.</p>
+      <div class="gift-gate__intro">
+        <p class="eyebrow">Uma surpresa feita com carinho</p>
+        <h1 id="giftTitle">Antes de<br>começar...</h1>
+        <p class="gift-gate__lead">Tem uma pequena viagem<br>esperando por você.</p>
+      </div>
 
+      <div class="gift-gate__cards">
+        <article class="gift-preview-card gift-preview-card--audio" aria-hidden="true">
+          <span class="gift-preview-card__icon">♫</span>
+          <div>
+            <p class="gift-preview-card__title">Coloque seus fones.</p>
+            <p>Dentro dessa história estão as músicas que a gente mais gosta.</p>
+          </div>
+        </article>
       <button id="giftButton" class="gift-stage" type="button" aria-expanded="false" aria-describedby="giftHint">
         <span id="giftHint" class="gift-stage__hint">Toque para abrir</span>
         <span class="gift" aria-hidden="true">
@@ -42,6 +56,14 @@
           <span class="gift__spark gift__spark--three"></span>
         </span>
       </button>
+        <article class="gift-preview-card gift-preview-card--story" aria-hidden="true">
+          <span class="gift-preview-card__icon">✦</span>
+          <div>
+            <p class="gift-preview-card__title">Abrir nossa história</p>
+            <p>A nossa playlist oficial aparece logo depois.</p>
+          </div>
+        </article>
+      </div>
 
       <div id="giftReveal" class="gift-reveal" hidden>
         <span class="gift-reveal__icon" aria-hidden="true">🎧</span>
@@ -84,6 +106,7 @@
     </section>
 
     <section id="memories" class="chapter chapter--memories" data-chapter="Memórias">
+      <span class="chapter-transition" aria-hidden="true"></span>
       <div class="chapter__inner">
         <div class="section-heading reveal">
           <p class="eyebrow">Capítulo 02 · Álbum aberto</p>
@@ -96,6 +119,7 @@
     </section>
 
     <section id="firstTime" class="chapter chapter--first-time" data-chapter="De novo">
+      <span class="chapter-transition" aria-hidden="true"></span>
       <div class="chapter__inner first-time-layout">
         <div class="first-time__copy reveal">
           <p class="eyebrow">Capítulo 03 · Um filme que fica</p>
@@ -108,6 +132,7 @@
     </section>
 
     <section id="snickers" class="chapter chapter--snickers" data-chapter="Pausa">
+      <span class="chapter-transition" aria-hidden="true"></span>
       <div class="chapter__inner compact-section">
         <div class="snickers-card reveal">
           <p class="eyebrow">Interlúdio importante</p>
@@ -131,77 +156,163 @@
     </section>
 
     <section id="zumba" class="chapter chapter--zumba" data-chapter="Zumba">
+      <span class="chapter-transition" aria-hidden="true"></span>
       <div class="chapter__inner zumba-layout">
         <div class="section-heading reveal">
           <p class="eyebrow">Capítulo 04 · Um pouco de movimento</p>
           <h2>Você realmente achou que eu esqueceria da Zumba?</h2>
-          <p>Momento obrigatório de atividade física. Siga a sequência de passos.</p>
+          <p>Um vídeo que simplesmente precisava estar aqui.</p>
         </div>
         <div class="zumba-experience reveal">
-          <div class="zumba-game" aria-describedby="zumbaStatus">
-            <div class="zumba-game__beats" aria-hidden="true">
-              <span data-beat="0"></span><span data-beat="1"></span><span data-beat="2"></span><span data-beat="3"></span>
-            </div>
-            <div class="zumba-game__moves" role="group" aria-label="Passos da Zumba">
-              <button type="button" class="zumba-move" data-move="left">←</button>
-              <button type="button" class="zumba-move" data-move="right">→</button>
-              <button type="button" class="zumba-move" data-move="jump">↑</button>
-              <button type="button" class="zumba-move" data-move="spin">⟳</button>
-            </div>
-            <p id="zumbaStatus" class="interaction-message" aria-live="polite">Comece pelo passo iluminado.</p>
-          </div>
           <div class="zumba-reel">
-            <p class="zumba-reel__label">O vídeo que precisava estar nessa história.</p>
-            <iframe src="https://www.instagram.com/reel/DUPFcxvDuep/embed/" title="Reel da Zumba que é uma piada interna" loading="lazy" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-            <a class="zumba-reel__fallback" href="https://www.instagram.com/reel/DUPFcxvDuep/" target="_blank" rel="noopener noreferrer">Abrir o vídeo no Instagram ↗</a>
+            <iframe src="https://www.instagram.com/reel/DUPFcxvDuep/embed/" title="Vídeo da Zumba" loading="lazy" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          </div>
+          <div class="scooter-interaction">
+            <button id="scooterButton" class="scooter-button" type="button">
+              <img src="assets/images/monkey-scooter.png" alt="Macaco de capacete em uma motinha">
+              <span>Vamos para o facilita</span>
+            </button>
           </div>
         </div>
       </div>
     </section>
 
     <section id="fragrance" class="chapter chapter--fragrance" data-chapter="Detalhes">
+      <span class="chapter-transition" aria-hidden="true"></span>
       <div class="fragrance-atmosphere" aria-hidden="true">
         <span></span><span></span><span></span><span></span><span></span>
       </div>
+      <div id="flowerWash" class="flower-wash" aria-hidden="true">
+        <svg class="flower-wash__symbols" width="0" height="0" focusable="false">
+          <defs>
+            <symbol id="fragranceBloom" viewBox="0 0 100 100">
+              <g fill="currentColor" fill-opacity=".94">
+                <ellipse cx="50" cy="21" rx="14" ry="24"></ellipse>
+                <ellipse cx="50" cy="21" rx="14" ry="24" transform="rotate(45 50 50)"></ellipse>
+                <ellipse cx="50" cy="21" rx="14" ry="24" transform="rotate(90 50 50)"></ellipse>
+                <ellipse cx="50" cy="21" rx="14" ry="24" transform="rotate(135 50 50)"></ellipse>
+                <ellipse cx="50" cy="21" rx="14" ry="24" transform="rotate(180 50 50)"></ellipse>
+                <ellipse cx="50" cy="21" rx="14" ry="24" transform="rotate(225 50 50)"></ellipse>
+                <ellipse cx="50" cy="21" rx="14" ry="24" transform="rotate(270 50 50)"></ellipse>
+                <ellipse cx="50" cy="21" rx="14" ry="24" transform="rotate(315 50 50)"></ellipse>
+              </g>
+              <circle cx="50" cy="50" r="14" fill="var(--flower-center, #f2d39d)"></circle>
+              <circle cx="46" cy="46" r="4" fill="rgba(255,255,255,.44)"></circle>
+            </symbol>
+            <symbol id="fragranceDaisy" viewBox="0 0 100 100">
+              <g fill="currentColor" fill-opacity=".92">
+                <ellipse cx="50" cy="18" rx="9" ry="25"></ellipse>
+                <ellipse cx="50" cy="18" rx="9" ry="25" transform="rotate(30 50 50)"></ellipse>
+                <ellipse cx="50" cy="18" rx="9" ry="25" transform="rotate(60 50 50)"></ellipse>
+                <ellipse cx="50" cy="18" rx="9" ry="25" transform="rotate(90 50 50)"></ellipse>
+                <ellipse cx="50" cy="18" rx="9" ry="25" transform="rotate(120 50 50)"></ellipse>
+                <ellipse cx="50" cy="18" rx="9" ry="25" transform="rotate(150 50 50)"></ellipse>
+                <ellipse cx="50" cy="18" rx="9" ry="25" transform="rotate(180 50 50)"></ellipse>
+                <ellipse cx="50" cy="18" rx="9" ry="25" transform="rotate(210 50 50)"></ellipse>
+                <ellipse cx="50" cy="18" rx="9" ry="25" transform="rotate(240 50 50)"></ellipse>
+                <ellipse cx="50" cy="18" rx="9" ry="25" transform="rotate(270 50 50)"></ellipse>
+                <ellipse cx="50" cy="18" rx="9" ry="25" transform="rotate(300 50 50)"></ellipse>
+                <ellipse cx="50" cy="18" rx="9" ry="25" transform="rotate(330 50 50)"></ellipse>
+              </g>
+              <circle cx="50" cy="50" r="15" fill="var(--flower-center, #e9c78f)"></circle>
+              <circle cx="46" cy="45" r="4" fill="rgba(255,255,255,.4)"></circle>
+            </symbol>
+            <symbol id="fragranceFivePetal" viewBox="0 0 100 100">
+              <g fill="currentColor" fill-opacity=".95">
+                <ellipse cx="50" cy="25" rx="20" ry="27"></ellipse>
+                <ellipse cx="50" cy="25" rx="20" ry="27" transform="rotate(72 50 52)"></ellipse>
+                <ellipse cx="50" cy="25" rx="20" ry="27" transform="rotate(144 50 52)"></ellipse>
+                <ellipse cx="50" cy="25" rx="20" ry="27" transform="rotate(216 50 52)"></ellipse>
+                <ellipse cx="50" cy="25" rx="20" ry="27" transform="rotate(288 50 52)"></ellipse>
+              </g>
+              <circle cx="50" cy="51" r="13" fill="var(--flower-center, #f2d39d)"></circle>
+            </symbol>
+            <symbol id="fragranceSprig" viewBox="0 0 100 140">
+              <path d="M48 136C48 96 51 58 72 9" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"></path>
+              <g fill="currentColor" fill-opacity=".72">
+                <ellipse cx="48" cy="101" rx="12" ry="24" transform="rotate(-48 48 101)"></ellipse>
+                <ellipse cx="62" cy="77" rx="11" ry="23" transform="rotate(48 62 77)"></ellipse>
+                <ellipse cx="59" cy="47" rx="10" ry="21" transform="rotate(-42 59 47)"></ellipse>
+              </g>
+              <g fill="var(--flower-bud, #e8f8ff)">
+                <circle cx="74" cy="12" r="10"></circle>
+                <circle cx="68" cy="31" r="7"></circle>
+                <circle cx="83" cy="27" r="6"></circle>
+              </g>
+            </symbol>
+          </defs>
+        </svg>
+        <span class="flower-wash__flower flower-wash__flower--01 flower-wash__flower--rear"><svg viewBox="0 0 100 100"><use href="#fragranceBloom"></use></svg></span>
+        <span class="flower-wash__flower flower-wash__flower--02 flower-wash__flower--rear"><svg viewBox="0 0 100 100"><use href="#fragranceDaisy"></use></svg></span>
+        <span class="flower-wash__flower flower-wash__flower--03 flower-wash__flower--front"><svg viewBox="0 0 100 100"><use href="#fragranceFivePetal"></use></svg></span>
+        <span class="flower-wash__flower flower-wash__flower--04 flower-wash__flower--rear"><svg viewBox="0 0 100 140"><use href="#fragranceSprig"></use></svg></span>
+        <span class="flower-wash__flower flower-wash__flower--05 flower-wash__flower--rear"><svg viewBox="0 0 100 100"><use href="#fragranceBloom"></use></svg></span>
+        <span class="flower-wash__flower flower-wash__flower--06 flower-wash__flower--front"><svg viewBox="0 0 100 100"><use href="#fragranceDaisy"></use></svg></span>
+        <span class="flower-wash__flower flower-wash__flower--07 flower-wash__flower--rear"><svg viewBox="0 0 100 100"><use href="#fragranceFivePetal"></use></svg></span>
+        <span class="flower-wash__flower flower-wash__flower--08 flower-wash__flower--front"><svg viewBox="0 0 100 100"><use href="#fragranceBloom"></use></svg></span>
+        <span class="flower-wash__flower flower-wash__flower--09 flower-wash__flower--rear"><svg viewBox="0 0 100 140"><use href="#fragranceSprig"></use></svg></span>
+        <span class="flower-wash__flower flower-wash__flower--10 flower-wash__flower--rear"><svg viewBox="0 0 100 100"><use href="#fragranceDaisy"></use></svg></span>
+        <span class="flower-wash__flower flower-wash__flower--11 flower-wash__flower--front"><svg viewBox="0 0 100 100"><use href="#fragranceFivePetal"></use></svg></span>
+        <span class="flower-wash__flower flower-wash__flower--12 flower-wash__flower--rear"><svg viewBox="0 0 100 100"><use href="#fragranceBloom"></use></svg></span>
+      </div>
       <div class="chapter__inner compact-section">
         <div class="fragrance-copy reveal">
-          <p class="eyebrow">Capítulo 05 · Coisas que têm a sua cara</p>
-          <h2>E claro... algumas coisas simplesmente têm a sua cara.</h2>
-          <p>Seu cuidado, seu jeito e essas pequenas coisas que fazem você ser você.</p>
-          <button id="sprayButton" class="spray-button" type="button">
-            <span class="spray-button__bottle" aria-hidden="true"></span>
-            Tu se acha né garota?
-          </button>
-          <p id="sprayMessage" class="interaction-message" aria-live="polite"></p>
+          <div class="fragrance-heading">
+            <p class="eyebrow">Capítulo 05 · Coisas que têm a sua cara</p>
+            <h2>Uma cartinha para você.</h2>
+            <p>Tem coisa que fica melhor quando é dita com calma.</p>
+          </div>
+          <div class="fragrance-stage">
+            <article id="fragranceLetter" class="fragrance-letter" aria-label="Cartinha para Isabella">
+              <span class="fragrance-letter__seal" aria-hidden="true">✦</span>
+              <p>Para Isabella,</p>
+              <p>Eu fiz uma coisinha para deixar o seu dia ainda mais bonito.</p>
+              <p class="fragrance-letter__extra">Mas não vai se acostumando, viu? Isso aqui é só porque você merece.</p>
+            </article>
+            <button id="fragranceStart" class="button button--primary fragrance-start" type="button" aria-controls="fragrancePrompt" aria-expanded="false">Abrir a cartinha</button>
+            <div id="fragrancePrompt" class="fragrance-prompt" role="region" aria-label="Mensagem da cartinha" hidden>
+              <p>Pronto. Agora tem mais uma coisinha aqui.</p>
+              <button id="fragranceReveal" class="button button--outline" type="button">Clica aqui</button>
+              <p id="fragranceMessage" class="fragrance-message" aria-live="polite"></p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <section id="greece" class="chapter chapter--greece" data-chapter="Grécia">
+      <span class="chapter-transition" aria-hidden="true"></span>
       <div class="greece-scene" aria-hidden="true">
         <div class="greece-scene__sun"></div>
         <div class="greece-scene__sea"></div>
         <div class="greece-scene__house greece-scene__house--one"><span></span><i></i></div>
         <div class="greece-scene__house greece-scene__house--two"><span></span><i></i></div>
         <div class="greece-scene__house greece-scene__house--three"><span></span><i></i></div>
+        <div class="greece-scene__shore-wave"></div>
       </div>
+      <button id="greeceSunButton" class="greece-sun-button" type="button" aria-pressed="false" aria-describedby="greeceSunHint">
+        <span class="greece-sun-button__orb" aria-hidden="true"></span>
+        <span id="greeceSunHint" class="greece-sun-button__hint">Clique no sol</span>
+      </button>
       <div class="chapter__inner greece-layout">
         <div class="greece-copy reveal">
           <p class="eyebrow">Capítulo 06 · Uma viagem imaginada</p>
           <p class="greece-copy__lead">Agora vamos para um lugar que eu sei que você adoraria conhecer.</p>
           <h2>🇬🇷 Grécia</h2>
-          <p>Se você pudesse estar aqui agora...</p>
+          <p id="greeceVisitMessage" class="greece-visit-message" aria-hidden="true">agora para tirar fotos, temos que ir la vizitar</p>
+          <p>Se você pudesse estar aqui agora, qual seria o primeiro plano?</p>
           <div class="greece-choices" role="group" aria-label="Escolha uma atividade na Grécia">
-            <button type="button" data-greece-choice="beach">🌊 Praia</button>
-            <button type="button" data-greece-choice="walk">🍦 Passear</button>
-            <button type="button" data-greece-choice="photos">📸 Tirar fotos</button>
+            <button type="button" data-greece-choice="beach"><span aria-hidden="true">🌊</span><strong>Praia</strong><small>Entrar no mar</small></button>
+            <button type="button" data-greece-choice="walk"><span aria-hidden="true">🍦</span><strong>Passear</strong><small>Ver as ruazinhas</small></button>
+            <button type="button" data-greece-choice="photos"><span aria-hidden="true">📸</span><strong>Fotos</strong><small>Guardar o dia</small></button>
           </div>
-          <p id="greeceResult" class="interaction-message" aria-live="polite">Escolha uma pequena aventura.</p>
+          <p id="greeceResult" class="interaction-message" aria-live="polite">Escolhe uma pequena aventura. E toca no sol para ver a Grécia de outro jeito.</p>
         </div>
       </div>
     </section>
 
     <section id="beach" class="chapter chapter--beach" data-chapter="Mar">
+      <span class="chapter-transition" aria-hidden="true"></span>
       <div class="beach-sky" aria-hidden="true">
         <div class="beach-sky__sun"></div>
         <div class="beach-sky__reflection"></div>
@@ -220,22 +331,36 @@
     </section>
 
     <section id="letter" class="chapter chapter--letter" data-chapter="Carta">
+      <span class="chapter-transition" aria-hidden="true"></span>
+      <div class="letter-beach-scene" aria-hidden="true">
+        <span class="letter-beach-scene__sun"></span>
+        <span class="letter-beach-scene__wave letter-beach-scene__wave--one"></span>
+        <span class="letter-beach-scene__wave letter-beach-scene__wave--two"></span>
+        <span class="letter-beach-scene__shell letter-beach-scene__shell--one">⌒</span>
+        <span class="letter-beach-scene__shell letter-beach-scene__shell--two">⌒</span>
+      </div>
+      <button id="letterSeaButton" class="letter-sea-button" type="button" aria-pressed="false" aria-describedby="letterSeaHint">
+        <span class="letter-sea-button__ripple" aria-hidden="true"></span>
+        <span id="letterSeaHint" class="letter-sea-button__hint">Toque no mar</span>
+      </button>
       <div class="chapter__inner letter-layout">
         <div class="letter-intro reveal">
-          <p class="eyebrow">Capítulo 08 · O que eu queria te dizer</p>
-          <h2>Uma carta que eu queria que você lesse.</h2>
-          <p>A música da carta já fica destacada na nossa playlist.</p>
+          <p class="eyebrow">Capítulo 08 · Uma carta vinda do mar</p>
+          <h2>Uma carta que chegou pela praia.</h2>
+          <p>Porque eu sei que o mar é um dos seus lugares favoritos. A música da carta já fica destacada na nossa playlist.</p>
           <button id="continueMusicButton" class="button button--outline" type="button">♫ Abrir a música da carta</button>
         </div>
         <article id="letterPaper" class="letter-paper reveal reveal--delay" aria-label="Carta aberta para Isabella">
+          <span class="letter-paper__beach-mark" aria-hidden="true">⌇</span>
           <p class="letter-paper__date">Para Isabella,</p>
           <div id="letterContent" class="letter-paper__content" aria-live="polite"></div>
-          <p class="letter-paper__signature">Com carinho, <span>[SEU NOME]</span></p>
+          <p class="letter-paper__signature">Com carinha, <span>B</span></p>
         </article>
       </div>
     </section>
 
     <section id="birthday" class="chapter chapter--birthday" data-chapter="Aniversário">
+      <span class="chapter-transition" aria-hidden="true"></span>
       <div class="chapter__inner birthday-layout">
         <div class="birthday-content reveal">
           <span class="birthday-cake" aria-hidden="true">🎂</span>
@@ -245,12 +370,14 @@
           <p class="birthday-content__accent">Você é muito especial.</p>
           <p id="birthdayName" class="birthday-content__wish">Feliz aniversário, Isabella. 💙</p>
           <button id="confettiButton" class="button button--primary" type="button">Fazer um pedido ✦</button>
+          <p id="birthdayWishMessage" class="birthday-wish-message" aria-live="polite" hidden>sei que o pedido é a gente junto, pode falar</p>
         </div>
         <div id="confettiField" class="confetti-field" aria-hidden="true"></div>
       </div>
     </section>
 
     <section id="finale" class="chapter chapter--finale" data-chapter="Sempre">
+      <span class="chapter-transition" aria-hidden="true"></span>
       <div class="chapter__inner finale-layout">
         <div class="finale-copy reveal">
           <p class="eyebrow">Fim deste capítulo</p>
@@ -278,33 +405,39 @@
   </section>
 
   <section id="storyPlayer" class="story-player" aria-label="A nossa playlist" hidden>
-    <div class="story-player__top">
-      <span class="story-player__eyebrow">♫ A nossa playlist</span>
-      <button id="playlistToggle" class="story-player__track" type="button" aria-label="Abrir a nossa playlist" aria-expanded="false">
-        <span id="currentTrack">5 músicas que são nossas</span>
-        <span aria-hidden="true">↗</span>
-      </button>
+    <div class="story-player__track">
+      <span class="story-player__cover">
+        <img id="currentTrackCover" src="" alt="">
+      </span>
+      <span class="story-player__copy">
+        <strong id="currentTrack">6 músicas que são nossas</strong>
+        <span id="currentTrackArtist">A nossa playlist</span>
+      </span>
+      <span class="story-player__verified" aria-hidden="true">✓</span>
+    </div>
+    <div id="playlistProgress" class="story-player__progress" role="progressbar" aria-label="Progresso da música" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <span id="playlistProgressFill"></span>
     </div>
     <div class="story-player__controls">
-      <button id="playlistOpen" class="story-player__open" type="button">Escolher uma música <span aria-hidden="true">→</span></button>
+      <button id="playlistPrevious" class="story-player__skip" type="button" aria-label="Música anterior" title="Música anterior">⏮</button>
+      <button id="playlistPlayback" class="story-player__open" type="button" aria-label="Tocar música">
+        <span class="story-player__play" aria-hidden="true">▶</span>
+      </button>
+      <button id="playlistNext" class="story-player__skip" type="button" aria-label="Próxima música" title="Próxima música">⏭</button>
+    </div>
+    <button id="playlistQueueToggle" class="story-player__queue-toggle" type="button" aria-controls="playlistQueue" aria-expanded="false">
+      <span id="playlistQueueLabel">Ver próximas músicas</span>
+      <span class="story-player__queue-chevron" aria-hidden="true">⌄</span>
+    </button>
+    <div id="playlistQueue" class="story-player__queue" aria-hidden="true">
+      <div class="story-player__queue-inner">
+        <div id="playlistTracks" class="playlist-tracks" role="list" aria-label="Próximas músicas"></div>
+      </div>
+    </div>
+    <div class="spotify-embed" aria-hidden="true">
+      <div id="spotifyEmbed"></div>
     </div>
   </section>
-
-  <aside id="playlistPanel" class="playlist-panel" aria-label="A nossa playlist no Spotify" hidden>
-    <div class="playlist-panel__header">
-      <div>
-        <p class="eyebrow">A nossa playlist</p>
-        <h2>As músicas que a gente mais gosta.</h2>
-      </div>
-      <button id="playlistClose" class="playlist-panel__close" type="button" aria-label="Fechar playlist">×</button>
-    </div>
-    <p class="playlist-panel__intro">Escolhe uma música e aperta play no player oficial do Spotify. Cada uma delas faz parte da nossa história.</p>
-    <div id="playlistTracks" class="playlist-tracks" role="list" aria-label="Músicas da nossa playlist"></div>
-    <div class="spotify-embed">
-      <iframe id="spotifyEmbed" title="Player oficial do Spotify" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-    </div>
-    <a id="spotifyOpen" class="playlist-panel__spotify-link" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">Abrir no Spotify ↗</a>
-  </aside>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 

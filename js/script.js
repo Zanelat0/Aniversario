@@ -3,7 +3,7 @@
 
   /*
    * PERSONALIZAÇÃO RÁPIDA
-   * As músicas abaixo são a playlist de vocês e aparecem no player oficial do Spotify.
+   * As músicas abaixo aparecem no player oficial incorporado do Spotify.
    * O site não baixa, extrai ou redistribui os áudios.
    */
   const siteConfig = {
@@ -12,32 +12,49 @@
     playlist: [
       {
         title: "Te Dar",
+        artist: "Ashira",
         note: "Para abrir a nossa história.",
-        spotify: "https://open.spotify.com/track/0RhHarZR8rfiTciTb8oRGg"
+        spotify: "https://open.spotify.com/track/0RhHarZR8rfiTciTb8oRGg",
+        cover: "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0227e51a32deddbd241673cd13"
       },
       {
         title: "TE AMO SEM CULPA",
-        note: "A música da carta.",
-        spotify: "https://open.spotify.com/track/1chcsgpMWNNfTuhXSujoUA"
+        artist: "Carol Biazin",
+        note: "Mais uma música da nossa história.",
+        spotify: "https://open.spotify.com/track/1chcsgpMWNNfTuhXSujoUA",
+        cover: "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e028c822133bf3cf6ae2de1d644"
       },
       {
         title: "Códigos",
+        artist: "Carol Biazin",
         note: "Mais uma música que é nossa.",
-        spotify: "https://open.spotify.com/intl-pt/track/6YaD8CoJIb0HGulK8n21RZ"
+        spotify: "https://open.spotify.com/intl-pt/track/6YaD8CoJIb0HGulK8n21RZ",
+        cover: "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e028c822133bf3cf6ae2de1d644"
       },
       {
         title: "pensando direito",
+        artist: "Delacruz, JOK3R, Péricles",
         note: "Da nossa playlist para ficar perto.",
-        spotify: "https://open.spotify.com/intl-pt/track/57FSQIGpI6WZm4ko6mGOVJ"
+        spotify: "https://open.spotify.com/intl-pt/track/57FSQIGpI6WZm4ko6mGOVJ",
+        cover: "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0244edd080d52274c553c66c14"
       },
       {
         title: "Seu Jogo",
+        artist: "Delacruz, Gu$t, MC Kevin o Chris",
         note: "Para lembrar que a nossa playlist continua crescendo.",
-        spotify: "https://open.spotify.com/intl-pt/track/5e9WIdb3KsK7r8soV41bKo"
+        spotify: "https://open.spotify.com/intl-pt/track/5e9WIdb3KsK7r8soV41bKo",
+        cover: "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02b829627835550cd88418fb64"
+      },
+      {
+        title: "Pouca Pausa",
+        artist: "Clau, Cortesia Da Casa, Haikaiss",
+        note: "A música da carta.",
+        spotify: "https://open.spotify.com/intl-pt/track/2odzriVVZBwYOiYJEj30tm",
+        cover: "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e025937ef87945c165f9ace9c49"
       }
     ],
     carta: [
-      "[ESCREVA AQUI A CARTA]"
+      "Desde que a gente foi naquele nascer do sol, eu comecei a gostar mais de ti, não que eu queria algo a mais, mas eu queria estar mais próximo, e desde então e venho gostando cada vez mais, e não é porque eu eu fiz esse site que eu gosto de ti"
     ]
   };
 
@@ -97,19 +114,27 @@
   ];
 
   const tracks = siteConfig.playlist;
-
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const state = {
     giftOpened: false,
     storyStarted: false,
     activeTrack: 0,
-    playlistOpen: false,
+    queueExpanded: false,
+    spotifyController: null,
+    spotifyControllerReady: false,
+    spotifyPaused: true,
+    spotifyEmbedPromise: null,
+    initialPlaybackRequested: false,
     letterStarted: false,
     galleryIndex: 0,
     focusBeforeModal: null,
     toastTimer: null,
-    activeZumbaStep: 0,
-    chocolateBites: 0
+    chocolateBites: 0,
+    fragranceStarted: false,
+    fragranceRevealed: false,
+    fragranceTimers: [],
+    greeceNight: false,
+    letterSunset: false
   };
 
   const elements = {
@@ -131,14 +156,25 @@
     chocolateTreat: document.getElementById("chocolateTreat"),
     chocolateBites: document.getElementById("chocolateBites"),
     chocolateBurst: document.getElementById("chocolateBurst"),
-    zumbaStatus: document.getElementById("zumbaStatus"),
-    sprayButton: document.getElementById("sprayButton"),
-    sprayMessage: document.getElementById("sprayMessage"),
+    scooterButton: document.getElementById("scooterButton"),
+    fragrance: document.getElementById("fragrance"),
+    fragranceLetter: document.getElementById("fragranceLetter"),
+    fragranceStart: document.getElementById("fragranceStart"),
+    fragrancePrompt: document.getElementById("fragrancePrompt"),
+    fragranceReveal: document.getElementById("fragranceReveal"),
+    fragranceMessage: document.getElementById("fragranceMessage"),
     greece: document.getElementById("greece"),
+    greeceSunButton: document.getElementById("greeceSunButton"),
+    greeceSunHint: document.getElementById("greeceSunHint"),
+    greeceVisitMessage: document.getElementById("greeceVisitMessage"),
     greeceResult: document.getElementById("greeceResult"),
+    letter: document.getElementById("letter"),
+    letterSeaButton: document.getElementById("letterSeaButton"),
+    letterSeaHint: document.getElementById("letterSeaHint"),
     continueMusicButton: document.getElementById("continueMusicButton"),
     letterContent: document.getElementById("letterContent"),
     birthdayName: document.getElementById("birthdayName"),
+    birthdayWishMessage: document.getElementById("birthdayWishMessage"),
     finalName: document.getElementById("finalName"),
     confettiButton: document.getElementById("confettiButton"),
     confettiField: document.getElementById("confettiField"),
@@ -152,19 +188,23 @@
     galleryCaption: document.getElementById("galleryCaption"),
     player: document.getElementById("storyPlayer"),
     currentTrack: document.getElementById("currentTrack"),
-    playlistToggle: document.getElementById("playlistToggle"),
-    playlistOpenButton: document.getElementById("playlistOpen"),
-    playlistPanel: document.getElementById("playlistPanel"),
-    playlistClose: document.getElementById("playlistClose"),
+    currentTrackArtist: document.getElementById("currentTrackArtist"),
+    currentTrackCover: document.getElementById("currentTrackCover"),
+    playlistProgress: document.getElementById("playlistProgress"),
+    playlistProgressFill: document.getElementById("playlistProgressFill"),
+    playlistPreviousButton: document.getElementById("playlistPrevious"),
+    playlistNextButton: document.getElementById("playlistNext"),
+    playlistPlaybackButton: document.getElementById("playlistPlayback"),
+    playlistQueueToggle: document.getElementById("playlistQueueToggle"),
+    playlistQueueLabel: document.getElementById("playlistQueueLabel"),
+    playlistQueue: document.getElementById("playlistQueue"),
     playlistTracks: document.getElementById("playlistTracks"),
     spotifyEmbed: document.getElementById("spotifyEmbed"),
-    spotifyOpen: document.getElementById("spotifyOpen"),
     toast: document.getElementById("toast")
   };
 
   const chapters = Array.prototype.slice.call(document.querySelectorAll(".chapter"));
   const revealTargets = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
-  const zumbaSequence = ["left", "right", "jump", "spin"];
 
   function makeElement(tagName, className, text) {
     const element = document.createElement(tagName);
@@ -287,6 +327,17 @@
     }, 4300);
   }
 
+  function clearLegacySpotifySession() {
+    try {
+      window.localStorage.removeItem("bella-spotify-auth");
+      window.sessionStorage.removeItem("bella-spotify-pkce");
+      window.sessionStorage.removeItem("bella-spotify-autoplay");
+      window.sessionStorage.removeItem("bella-resume-story");
+    } catch (error) {
+      // O player incorporado funciona mesmo se o navegador bloquear o storage.
+    }
+  }
+
   function revealGift() {
     if (state.giftOpened) {
       return;
@@ -301,50 +352,92 @@
       elements.giftReveal.hidden = false;
       elements.startStoryButton.focus();
     }, reducedMotion ? 40 : 700);
+
+    setupSpotifyEmbed().catch(function () {});
   }
 
-  function getSpotifyEmbedUrl(track) {
+  function getSpotifyTrackUri(track) {
     const match = track.spotify.match(/track\/([^?]+)/);
-    const trackId = match ? match[1] : "";
-    return "https://open.spotify.com/embed/track/" + trackId + "?utm_source=generator&theme=0";
+    return match ? "spotify:track:" + match[1] : "";
+  }
+
+  function updatePlaybackButton() {
+    const isPlaying = !state.spotifyPaused;
+    const icon = elements.playlistPlaybackButton.querySelector(".story-player__play");
+
+    elements.player.classList.toggle("is-playing", isPlaying);
+    elements.playlistPlaybackButton.setAttribute("aria-label", isPlaying ? "Pausar música" : "Tocar música");
+    icon.textContent = isPlaying ? "Ⅱ" : "▶";
+  }
+
+  function updatePlaybackProgress(position, duration) {
+    const safePosition = Number(position);
+    const safeDuration = Number(duration);
+    const percentage = Number.isFinite(safePosition) && Number.isFinite(safeDuration) && safeDuration > 0
+      ? Math.min(100, Math.max(0, (safePosition / safeDuration) * 100))
+      : 0;
+
+    elements.playlistProgressFill.style.width = percentage + "%";
+    elements.playlistProgress.setAttribute("aria-valuenow", String(Math.round(percentage)));
+  }
+
+  function updateQueueInterface() {
+    elements.player.classList.toggle("is-queue-open", state.queueExpanded);
+    elements.playlistQueueToggle.setAttribute("aria-expanded", String(state.queueExpanded));
+    elements.playlistQueue.setAttribute("aria-hidden", String(!state.queueExpanded));
+    elements.playlistQueueLabel.textContent = state.queueExpanded ? "Ver menos músicas" : "Ver próximas músicas";
   }
 
   function updatePlaylistInterface() {
     const activeTrack = tracks[state.activeTrack];
-    const trackButtons = Array.prototype.slice.call(elements.playlistTracks.querySelectorAll("[data-playlist-index]"));
 
     elements.currentTrack.textContent = activeTrack.title;
-    elements.spotifyOpen.href = activeTrack.spotify;
-    elements.spotifyOpen.textContent = "Abrir “" + activeTrack.title + "” no Spotify ↗";
+    elements.currentTrackArtist.textContent = activeTrack.artist || "A nossa playlist";
+    elements.currentTrackCover.src = activeTrack.cover || "";
+    elements.currentTrackCover.alt = "Capa de “" + activeTrack.title + "”";
 
-    trackButtons.forEach(function (button) {
-      const isSelected = Number(button.getAttribute("data-playlist-index")) === state.activeTrack;
-      button.classList.toggle("is-selected", isSelected);
-      button.setAttribute("aria-pressed", String(isSelected));
-    });
+    renderPlaylistQueue();
+    updatePlaybackButton();
   }
 
-  function selectSpotifyTrack(index, shouldOpenPanel) {
+  function loadSpotifyTrack(shouldPlay) {
+    if (!state.spotifyControllerReady || !state.spotifyController) {
+      return;
+    }
+
+    state.spotifyController.loadEntity(getSpotifyTrackUri(tracks[state.activeTrack]));
+    if (shouldPlay) {
+      window.setTimeout(function () {
+        if (state.spotifyController) {
+          state.spotifyController.play();
+        }
+      }, reducedMotion ? 0 : 140);
+    }
+  }
+
+  function selectSpotifyTrack(index, shouldPlay) {
     const selectedIndex = Number(index);
     if (!tracks[selectedIndex]) {
       return;
     }
 
     state.activeTrack = selectedIndex;
-    if (state.storyStarted || state.playlistOpen || shouldOpenPanel) {
-      elements.spotifyEmbed.src = getSpotifyEmbedUrl(tracks[selectedIndex]);
-    }
+    updatePlaybackProgress(0, 0);
     updatePlaylistInterface();
-
-    if (shouldOpenPanel) {
-      openPlaylist(true);
-    }
+    loadSpotifyTrack(Boolean(shouldPlay));
   }
 
-  function renderPlaylist() {
+  function moveSpotifyTrack(direction) {
+    const nextIndex = (state.activeTrack + direction + tracks.length) % tracks.length;
+    selectSpotifyTrack(nextIndex, !state.spotifyPaused);
+  }
+
+  function renderPlaylistQueue() {
     const fragment = document.createDocumentFragment();
 
-    tracks.forEach(function (track, index) {
+    for (let offset = 1; offset < tracks.length; offset += 1) {
+      const index = (state.activeTrack + offset) % tracks.length;
+      const track = tracks[index];
       const button = makeElement("button", "playlist-track");
       const number = makeElement("span", "playlist-track__number", String(index + 1).padStart(2, "0"));
       const copy = makeElement("span", "playlist-track__copy");
@@ -354,42 +447,117 @@
       button.type = "button";
       button.setAttribute("data-playlist-index", String(index));
       button.setAttribute("aria-pressed", "false");
+      if (offset === 1) {
+        button.classList.add("is-next");
+      }
       copy.appendChild(title);
       copy.appendChild(note);
       button.appendChild(number);
       button.appendChild(copy);
       button.addEventListener("click", function () {
-        selectSpotifyTrack(index, false);
+        selectSpotifyTrack(index, !state.spotifyPaused);
       });
       fragment.appendChild(button);
-    });
+    }
 
-    elements.playlistTracks.appendChild(fragment);
+    elements.playlistTracks.replaceChildren(fragment);
+  }
+
+  function renderPlaylist() {
     selectSpotifyTrack(0, false);
   }
 
-  function openPlaylist(shouldFocus) {
-    state.playlistOpen = true;
-    elements.playlistPanel.hidden = false;
-    elements.playlistToggle.setAttribute("aria-expanded", "true");
-    if (!elements.spotifyEmbed.getAttribute("src")) {
-      elements.spotifyEmbed.src = getSpotifyEmbedUrl(tracks[state.activeTrack]);
+  function setupSpotifyEmbed() {
+    if (state.spotifyEmbedPromise) {
+      return state.spotifyEmbedPromise;
     }
 
-    if (shouldFocus) {
-      window.setTimeout(function () {
-        const activeButton = elements.playlistTracks.querySelector("[data-playlist-index='" + state.activeTrack + "']");
-        if (activeButton) {
-          activeButton.focus();
+    state.spotifyEmbedPromise = new Promise(function (resolve, reject) {
+      const createController = function (IFrameAPI) {
+        IFrameAPI.createController(elements.spotifyEmbed, {
+          uri: getSpotifyTrackUri(tracks[state.activeTrack]),
+          width: "1",
+          height: "1"
+        }, function (controller) {
+          state.spotifyController = controller;
+          controller.addListener("ready", function () {
+            state.spotifyControllerReady = true;
+            updatePlaybackButton();
+            resolve(controller);
+          });
+          controller.addListener("playback_started", function () {
+            state.initialPlaybackRequested = false;
+          });
+          controller.addListener("playback_update", function (event) {
+            if (!event.data) {
+              return;
+            }
+
+            state.spotifyPaused = Boolean(event.data.isPaused);
+            const matchingTrack = tracks.findIndex(function (track) {
+              return getSpotifyTrackUri(track) === event.data.playingURI;
+            });
+            if (matchingTrack >= 0) {
+              state.activeTrack = matchingTrack;
+            }
+            updatePlaybackProgress(event.data.position, event.data.duration);
+            updatePlaylistInterface();
+          });
+        });
+      };
+
+      const previousReady = window.onSpotifyIframeApiReady;
+      window.onSpotifyIframeApiReady = function (IFrameAPI) {
+        if (typeof previousReady === "function") {
+          previousReady(IFrameAPI);
         }
-      }, 0);
-    }
+        createController(IFrameAPI);
+      };
+
+      const script = document.createElement("script");
+      script.src = "https://open.spotify.com/embed/iframe-api/v1";
+      script.async = true;
+      script.dataset.spotifyIframeApi = "true";
+      script.addEventListener("error", function () {
+        reject(new Error("spotify_embed_unavailable"));
+      }, { once: true });
+      document.body.appendChild(script);
+    }).catch(function (error) {
+      state.spotifyEmbedPromise = null;
+      if (state.storyStarted) {
+        showToast("Não foi possível carregar o player do Spotify agora.");
+      }
+      throw error;
+    });
+
+    return state.spotifyEmbedPromise;
   }
 
-  function closePlaylist() {
-    state.playlistOpen = false;
-    elements.playlistPanel.hidden = true;
-    elements.playlistToggle.setAttribute("aria-expanded", "false");
+  function toggleSpotifyPlayback() {
+    state.initialPlaybackRequested = false;
+    setupSpotifyEmbed().then(function (controller) {
+      controller.togglePlay();
+    }).catch(function () {});
+  }
+
+  function playInitialTrackFromGesture() {
+    state.initialPlaybackRequested = true;
+
+    if (state.spotifyControllerReady && state.spotifyController) {
+      state.spotifyController.play();
+      return;
+    }
+
+    setupSpotifyEmbed().then(function (controller) {
+      if (state.initialPlaybackRequested && state.storyStarted) {
+        controller.play();
+      }
+    }).catch(function () {});
+  }
+
+  function togglePlaylistQueue() {
+    state.queueExpanded = !state.queueExpanded;
+    updateQueueInterface();
   }
 
   function startStory() {
@@ -412,9 +580,8 @@
       window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
     });
 
-    openPlaylist(false);
-    selectSpotifyTrack(0, false);
-    showToast("Essa é a nossa playlist. Aperta play no player oficial do Spotify.");
+    playInitialTrackFromGesture();
+    showToast("A nossa playlist está pronta.");
   }
 
   function updateProgress(index) {
@@ -482,7 +649,7 @@
     }
 
     state.letterStarted = true;
-    selectSpotifyTrack(1, false);
+    selectSpotifyTrack(5, false);
 
     elements.letterContent.replaceChildren();
     siteConfig.carta.forEach(function (paragraph, index) {
@@ -541,58 +708,91 @@
     elements.snickersButton.disabled = true;
   }
 
-  function updateZumbaGame() {
-    const beatNodes = Array.prototype.slice.call(document.querySelectorAll(".zumba-game__beats span"));
-    const moveNodes = Array.prototype.slice.call(document.querySelectorAll(".zumba-move"));
+  function runScooter() {
+    elements.scooterButton.classList.remove("is-riding");
+    void elements.scooterButton.offsetWidth;
+    elements.scooterButton.classList.add("is-riding");
+  }
 
-    beatNodes.forEach(function (beat, index) {
-      beat.classList.toggle("is-done", index < state.activeZumbaStep);
-      beat.classList.toggle("is-current", index === state.activeZumbaStep && state.activeZumbaStep < zumbaSequence.length);
+  function clearFragranceTimers() {
+    state.fragranceTimers.forEach(function (timer) {
+      window.clearTimeout(timer);
     });
+    state.fragranceTimers = [];
+  }
 
-    moveNodes.forEach(function (move) {
-      move.classList.toggle("is-expected", move.getAttribute("data-move") === zumbaSequence[state.activeZumbaStep]);
+  function showFragrancePrompt() {
+    elements.fragrancePrompt.hidden = false;
+    elements.fragrancePrompt.classList.remove("is-visible");
+    void elements.fragrancePrompt.offsetWidth;
+    elements.fragrancePrompt.classList.add("is-visible");
+
+    window.requestAnimationFrame(function () {
+      elements.fragranceReveal.focus({ preventScroll: true });
     });
   }
 
-  function handleZumbaMove(event) {
-    const move = event.currentTarget;
-    const selectedMove = move.getAttribute("data-move");
-    const expectedMove = zumbaSequence[state.activeZumbaStep];
-
-    if (selectedMove !== expectedMove) {
-      move.classList.add("is-wrong");
-      elements.zumbaStatus.textContent = "Quase! Vamos voltar ao primeiro passo.";
-      window.setTimeout(function () {
-        move.classList.remove("is-wrong");
-        state.activeZumbaStep = 0;
-        updateZumbaGame();
-      }, reducedMotion ? 20 : 620);
+  function startFragranceSequence() {
+    if (state.fragranceStarted) {
       return;
     }
 
-    state.activeZumbaStep += 1;
-    if (state.activeZumbaStep === zumbaSequence.length) {
-      updateZumbaGame();
-      elements.zumbaStatus.textContent = "Muito bem. Nota 10/10. 💃";
-      window.setTimeout(function () {
-        elements.zumbaStatus.textContent = "Bonito e sem atitude.";
-      }, reducedMotion ? 30 : 2300);
+    state.fragranceStarted = true;
+    clearFragranceTimers();
+    elements.fragrance.classList.add("is-opening");
+    elements.fragrance.setAttribute("aria-busy", "true");
+    elements.fragranceStart.disabled = true;
+    elements.fragranceStart.setAttribute("aria-expanded", "true");
+
+    if (reducedMotion) {
+      elements.fragranceLetter.classList.add("is-open");
+      elements.fragranceStart.hidden = true;
+      showFragrancePrompt();
+      elements.fragrance.classList.remove("is-opening");
+      elements.fragrance.classList.add("is-open");
+      elements.fragrance.removeAttribute("aria-busy");
       return;
     }
 
-    elements.zumbaStatus.textContent = "Perfeito. Continue no próximo passo iluminado.";
-    updateZumbaGame();
+    state.fragranceTimers.push(window.setTimeout(function () {
+      elements.fragranceStart.hidden = true;
+    }, 320));
+
+    state.fragranceTimers.push(window.setTimeout(function () {
+      elements.fragranceLetter.classList.add("is-open");
+    }, 480));
+
+    state.fragranceTimers.push(window.setTimeout(showFragrancePrompt, 1500));
+
+    state.fragranceTimers.push(window.setTimeout(function () {
+      elements.fragrance.classList.remove("is-opening");
+      elements.fragrance.classList.add("is-open");
+      elements.fragrance.removeAttribute("aria-busy");
+    }, 1820));
   }
 
-  function sprayFragrance() {
-    elements.sprayButton.classList.remove("is-spraying");
-    void elements.sprayButton.offsetWidth;
-    elements.sprayButton.classList.add("is-spraying");
-    elements.sprayMessage.textContent = "Tá bom, tá bom... você tem motivos para se achar.";
-    window.setTimeout(function () {
-      elements.sprayButton.classList.remove("is-spraying");
-    }, reducedMotion ? 20 : 780);
+  function revealFragranceMessage() {
+    if (state.fragranceRevealed) {
+      return;
+    }
+
+    state.fragranceRevealed = true;
+    elements.fragranceMessage.textContent = "Não se acha, garota. Não é porque eu fiz isso que eu gosto de ti.";
+    elements.fragrance.classList.add("is-revealed");
+    elements.fragrancePrompt.classList.add("is-revealed");
+    elements.fragranceReveal.textContent = "Tá bom, eu entendi 😌";
+    elements.fragranceReveal.disabled = true;
+  }
+
+  function toggleGreeceNight() {
+    state.greeceNight = !state.greeceNight;
+    elements.greece.classList.toggle("is-night", state.greeceNight);
+    elements.body.classList.toggle("greece-night-mode", state.greeceNight);
+    elements.greeceSunButton.setAttribute("aria-pressed", String(state.greeceNight));
+    elements.greeceSunHint.textContent = state.greeceNight ? "A noite chegou" : "Clique no sol";
+    elements.greeceResult.textContent = state.greeceNight
+      ? "Vamos para a Grécia ainda? À noite ela fica ainda mais bonita."
+      : "O dia voltou. Mas a Grécia continua esperando a gente.";
   }
 
   function chooseGreece(event) {
@@ -609,9 +809,29 @@
       choiceButton.classList.toggle("is-selected", choiceButton === button);
     });
 
-    elements.greece.classList.remove("is-beach-choice", "is-walk-choice", "is-photos-choice");
+    elements.greece.classList.remove("is-beach-choice", "is-walk-choice", "is-photos-choice", "is-beach-arriving");
+
+    if (choice === "beach") {
+      void elements.greece.offsetWidth;
+    }
+
     elements.greece.classList.add("is-" + choice + "-choice");
-    elements.greeceResult.textContent = responses[choice];
+
+    if (choice === "beach") {
+      elements.greece.classList.add("is-beach-arriving");
+    }
+
+    elements.greeceVisitMessage.setAttribute("aria-hidden", String(choice !== "photos"));
+    elements.greeceResult.textContent = responses[choice] + (state.greeceNight ? " À noite, então?" : "");
+  }
+
+  function toggleLetterSeaTheme() {
+    state.letterSunset = !state.letterSunset;
+    elements.letter.classList.toggle("is-sunset-theme", state.letterSunset);
+    elements.body.classList.toggle("sunset-site-mode", state.letterSunset);
+    elements.letterSeaButton.setAttribute("aria-pressed", String(state.letterSunset));
+    elements.letterSeaHint.textContent = state.letterSunset ? "Voltar ao azul" : "Toque no mar";
+    showToast(state.letterSunset ? "O mar aqueceu as cores do site." : "As cores azuis voltaram.");
   }
 
   function openGallery(index) {
@@ -684,6 +904,10 @@
   function launchConfetti() {
     const colors = ["#f2d39d", "#ffffff", "#3e9fd0", "#0a5d95", "#d0eff7"];
     elements.confettiField.replaceChildren();
+    elements.birthdayWishMessage.hidden = false;
+    elements.birthdayWishMessage.classList.remove("is-visible");
+    void elements.birthdayWishMessage.offsetWidth;
+    elements.birthdayWishMessage.classList.add("is-visible");
 
     for (let index = 0; index < 44; index += 1) {
       const piece = makeElement("span", "confetti-piece");
@@ -705,17 +929,51 @@
     state.activeTrack = 0;
     state.letterStarted = false;
     state.chocolateBites = 0;
+    state.fragranceStarted = false;
+    state.fragranceRevealed = false;
+    clearFragranceTimers();
+    state.greeceNight = false;
+    state.letterSunset = false;
+    state.queueExpanded = false;
+    state.spotifyPaused = true;
+    state.initialPlaybackRequested = false;
     elements.letterContent.replaceChildren();
     elements.chocolateTreat.classList.remove("is-bite-1", "is-bite-2", "is-bite-3");
     elements.chocolateBites.textContent = "Uma barra inteira esperando por você.";
     elements.snickersMessage.textContent = "";
     elements.snickersButton.textContent = "🍫 Dar uma mordida";
     elements.snickersButton.disabled = false;
+    elements.scooterButton.classList.remove("is-riding");
+    elements.fragrance.classList.remove("is-opening", "is-open", "is-revealed");
+    elements.fragrance.removeAttribute("aria-busy");
+    elements.fragranceLetter.classList.remove("is-open");
+    elements.fragranceStart.hidden = false;
+    elements.fragranceStart.disabled = false;
+    elements.fragranceStart.setAttribute("aria-expanded", "false");
+    elements.fragrancePrompt.hidden = true;
+    elements.fragrancePrompt.classList.remove("is-visible", "is-revealed");
+    elements.fragranceMessage.textContent = "";
+    elements.fragranceReveal.textContent = "Clica aqui";
+    elements.fragranceReveal.disabled = false;
+    elements.greece.classList.remove("is-night", "is-beach-choice", "is-walk-choice", "is-photos-choice", "is-beach-arriving");
+    elements.body.classList.remove("greece-night-mode");
+    elements.greeceSunButton.setAttribute("aria-pressed", "false");
+    elements.greeceSunHint.textContent = "Clique no sol";
+    elements.greeceVisitMessage.setAttribute("aria-hidden", "true");
+    elements.greeceResult.textContent = "Escolhe uma pequena aventura. E toca no sol para ver a Grécia de outro jeito.";
+    elements.letter.classList.remove("is-sunset-theme");
+    elements.body.classList.remove("sunset-site-mode");
+    elements.letterSeaButton.setAttribute("aria-pressed", "false");
+    elements.letterSeaHint.textContent = "Toque no mar";
+    elements.birthdayWishMessage.hidden = true;
+    elements.birthdayWishMessage.classList.remove("is-visible");
     elements.story.hidden = true;
     elements.player.hidden = true;
     elements.chapterProgress.hidden = true;
-    elements.spotifyEmbed.removeAttribute("src");
-    closePlaylist();
+    if (state.spotifyController) {
+      state.spotifyController.pause();
+    }
+    updateQueueInterface();
     selectSpotifyTrack(0, false);
     elements.giftGate.hidden = false;
     elements.giftGate.classList.remove("is-leaving");
@@ -734,32 +992,32 @@
     elements.giftButton.addEventListener("click", revealGift);
     elements.startStoryButton.addEventListener("click", startStory);
 
-    elements.playlistToggle.addEventListener("click", function () {
-      if (state.playlistOpen) {
-        closePlaylist();
-      } else {
-        openPlaylist(true);
-      }
+    elements.playlistPreviousButton.addEventListener("click", function () {
+      moveSpotifyTrack(-1);
     });
 
-    elements.playlistOpenButton.addEventListener("click", function () {
-      openPlaylist(true);
+    elements.playlistNextButton.addEventListener("click", function () {
+      moveSpotifyTrack(1);
     });
 
-    elements.playlistClose.addEventListener("click", function () {
-      closePlaylist();
-      elements.playlistToggle.focus();
+    elements.playlistPlaybackButton.addEventListener("click", function () {
+      toggleSpotifyPlayback();
+    });
+
+    elements.playlistQueueToggle.addEventListener("click", function () {
+      togglePlaylistQueue();
     });
 
     elements.continueMusicButton.addEventListener("click", function () {
-      selectSpotifyTrack(1, true);
+      selectSpotifyTrack(5, true);
     });
 
     elements.snickersButton.addEventListener("click", acceptSnickers);
-    Array.prototype.slice.call(document.querySelectorAll(".zumba-move")).forEach(function (button) {
-      button.addEventListener("click", handleZumbaMove);
-    });
-    elements.sprayButton.addEventListener("click", sprayFragrance);
+    elements.scooterButton.addEventListener("click", runScooter);
+    elements.fragranceStart.addEventListener("click", startFragranceSequence);
+    elements.fragranceReveal.addEventListener("click", revealFragranceMessage);
+    elements.greeceSunButton.addEventListener("click", toggleGreeceNight);
+    elements.letterSeaButton.addEventListener("click", toggleLetterSeaTheme);
     Array.prototype.slice.call(document.querySelectorAll("[data-greece-choice]")).forEach(function (button) {
       button.addEventListener("click", chooseGreece);
     });
@@ -780,12 +1038,6 @@
     });
 
     document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape" && state.playlistOpen) {
-        closePlaylist();
-        elements.playlistToggle.focus();
-        return;
-      }
-
       if (!elements.galleryModal.hidden) {
         if (event.key === "Escape") {
           closeGallery();
@@ -800,13 +1052,15 @@
   }
 
   function initialise() {
+    clearLegacySpotifySession();
     setTextContent();
     renderMemories();
     renderPlaylist();
-    updateZumbaGame();
+    updateQueueInterface();
     bindEvents();
     setupObservers();
     updateProgress(0);
+    setupSpotifyEmbed().catch(function () {});
   }
 
   initialise();
