@@ -315,10 +315,105 @@
       <span class="chapter-transition" aria-hidden="true"></span>
       <div class="beach-sky" aria-hidden="true">
         <div class="beach-sky__sun"></div>
-        <div class="beach-sky__reflection"></div>
-        <div class="beach-sky__wave beach-sky__wave--one"></div>
-        <div class="beach-sky__wave beach-sky__wave--two"></div>
-        <div class="beach-sky__wave beach-sky__wave--three"></div>
+        <div class="beach-sky__reflection">
+          <span class="beach-reflection__glint beach-reflection__glint--01"></span>
+          <span class="beach-reflection__glint beach-reflection__glint--02"></span>
+          <span class="beach-reflection__glint beach-reflection__glint--03"></span>
+          <span class="beach-reflection__glint beach-reflection__glint--04"></span>
+          <span class="beach-reflection__glint beach-reflection__glint--05"></span>
+          <span class="beach-reflection__glint beach-reflection__glint--06"></span>
+          <span class="beach-reflection__glint beach-reflection__glint--07"></span>
+          <span class="beach-reflection__glint beach-reflection__glint--08"></span>
+          <span class="beach-reflection__glint beach-reflection__glint--09"></span>
+          <span class="beach-reflection__glint beach-reflection__glint--10"></span>
+        </div>
+        <div class="beach-sky__wave beach-sky__wave--one">
+          <svg class="beach-wave__track" viewBox="0 0 2400 500" preserveAspectRatio="none" focusable="false">
+            <defs>
+              <linearGradient id="beachWaveFarGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#2a729d" stop-opacity=".9"></stop>
+                <stop offset=".46" stop-color="#165986" stop-opacity=".96"></stop>
+                <stop offset="1" stop-color="#0b3e6d"></stop>
+              </linearGradient>
+              <g id="beachWaveFarTile">
+                <path class="beach-wave__body" fill="url(#beachWaveFarGradient)" d="M0 82 C74 77 122 100 205 93 C286 86 348 63 442 73 C526 82 572 105 662 98 C755 91 814 72 910 82 C1005 92 1084 103 1200 82 L1200 500 L0 500 Z"></path>
+                <path class="beach-wave__crest" d="M0 82 C74 77 122 100 205 93 C286 86 348 63 442 73 C526 82 572 105 662 98 C755 91 814 72 910 82 C1005 92 1084 103 1200 82"></path>
+                <g class="beach-wave__surface">
+                  <path d="M72 128 C153 117 229 132 328 121"></path>
+                  <path d="M390 116 C454 105 511 117 573 111"></path>
+                  <path d="M678 139 C760 125 831 139 930 124"></path>
+                  <path d="M980 151 C1040 142 1093 147 1162 137"></path>
+                </g>
+              </g>
+            </defs>
+            <use href="#beachWaveFarTile"></use>
+            <use href="#beachWaveFarTile" x="1200"></use>
+          </svg>
+        </div>
+        <div class="beach-sky__wave beach-sky__wave--two">
+          <svg class="beach-wave__track" viewBox="0 0 2400 500" preserveAspectRatio="none" focusable="false">
+            <defs>
+              <linearGradient id="beachWaveMiddleGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#165a87" stop-opacity=".95"></stop>
+                <stop offset=".48" stop-color="#0b416f"></stop>
+                <stop offset="1" stop-color="#062c58"></stop>
+              </linearGradient>
+              <g id="beachWaveMiddleTile">
+                <path class="beach-wave__body" fill="url(#beachWaveMiddleGradient)" d="M0 94 C78 108 133 74 225 83 C317 92 360 126 465 112 C560 99 610 66 710 78 C802 89 850 121 960 105 C1058 91 1125 72 1200 94 L1200 500 L0 500 Z"></path>
+                <path class="beach-wave__crest" d="M0 94 C78 108 133 74 225 83 C317 92 360 126 465 112 C560 99 610 66 710 78 C802 89 850 121 960 105 C1058 91 1125 72 1200 94"></path>
+                <g class="beach-wave__surface">
+                  <path d="M36 151 C106 162 180 132 259 141"></path>
+                  <path d="M315 174 C402 156 484 169 554 149"></path>
+                  <path d="M633 128 C721 111 789 142 864 133"></path>
+                  <path d="M916 166 C1016 147 1085 158 1171 139"></path>
+                  <path class="beach-wave__undertow" d="M178 218 C298 194 420 221 548 198"></path>
+                  <path class="beach-wave__undertow" d="M704 231 C831 204 968 227 1091 202"></path>
+                </g>
+                <g class="beach-wave__foam">
+                  <path d="M118 89 C148 78 183 78 221 83"></path>
+                  <path d="M618 84 C648 72 680 72 710 78"></path>
+                  <path d="M1052 93 C1081 84 1106 78 1134 78"></path>
+                </g>
+              </g>
+            </defs>
+            <use href="#beachWaveMiddleTile"></use>
+            <use href="#beachWaveMiddleTile" x="1200"></use>
+          </svg>
+        </div>
+        <div class="beach-sky__wave beach-sky__wave--three">
+          <svg class="beach-wave__track" viewBox="0 0 2400 500" preserveAspectRatio="none" focusable="false">
+            <defs>
+              <linearGradient id="beachWaveFrontGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#0a3c6b"></stop>
+                <stop offset=".4" stop-color="#062b55"></stop>
+                <stop offset="1" stop-color="#031934"></stop>
+              </linearGradient>
+              <g id="beachWaveFrontTile">
+                <path class="beach-wave__body" fill="url(#beachWaveFrontGradient)" d="M0 112 C58 119 104 90 177 99 C232 106 269 143 348 132 C428 121 458 79 548 88 C628 96 652 139 744 128 C830 117 873 90 952 98 C1033 106 1096 137 1200 112 L1200 500 L0 500 Z"></path>
+                <path class="beach-wave__crest" d="M0 112 C58 119 104 90 177 99 C232 106 269 143 348 132 C428 121 458 79 548 88 C628 96 652 139 744 128 C830 117 873 90 952 98 C1033 106 1096 137 1200 112"></path>
+                <g class="beach-wave__surface">
+                  <path d="M39 174 C112 151 195 171 278 155"></path>
+                  <path d="M323 190 C405 170 466 188 551 166"></path>
+                  <path d="M609 181 C701 160 783 183 866 159"></path>
+                  <path d="M922 177 C1005 158 1077 179 1165 153"></path>
+                  <path class="beach-wave__undertow" d="M88 245 C204 216 316 249 436 221"></path>
+                  <path class="beach-wave__undertow" d="M502 268 C626 234 752 267 881 233"></path>
+                  <path class="beach-wave__undertow" d="M902 242 C1007 219 1095 241 1179 219"></path>
+                </g>
+                <g class="beach-wave__foam beach-wave__foam--front">
+                  <path d="M87 106 C113 96 145 93 177 99"></path>
+                  <path d="M452 94 C480 81 515 82 548 88"></path>
+                  <path d="M846 112 C878 98 916 93 952 98"></path>
+                  <circle cx="193" cy="104" r="3"></circle>
+                  <circle cx="565" cy="94" r="2.5"></circle>
+                  <circle cx="967" cy="102" r="2.8"></circle>
+                </g>
+              </g>
+            </defs>
+            <use href="#beachWaveFrontTile"></use>
+            <use href="#beachWaveFrontTile" x="1200"></use>
+          </svg>
+        </div>
       </div>
       <div class="chapter__inner beach-layout">
         <div class="beach-copy reveal">
