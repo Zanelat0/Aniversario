@@ -64,52 +64,85 @@
    */
   const memories = [
     {
-      image: "assets/images/foto01.jpg",
-      alt: "Espaço reservado para a foto 01",
+      image: "assets/images/capitulo02-imagem01.png",
+      alt: "Retrato divertido de Isabella olhando para a câmera",
       date: "",
       text: "[Escreva aqui uma lembrança desta foto.]",
       orientation: "portrait",
       tilt: "-2.1deg"
     },
     {
-      image: "assets/images/foto02.jpg",
-      alt: "Espaço reservado para a foto 02",
+      image: "assets/images/foto02.png",
+      alt: "Isabella e companhia em uma festa junina",
       date: "",
       text: "[Escreva aqui uma lembrança desta foto.]",
       orientation: "portrait",
       tilt: "2deg"
     },
     {
-      image: "assets/images/foto03.jpg",
-      alt: "Espaço reservado para a foto 03",
+      image: "assets/images/capitulo02-imagem03.png",
+      alt: "Isabella e companhia em uma selfie na escola",
       date: "",
       text: "[Escreva aqui uma lembrança desta foto.]",
       orientation: "wide",
       tilt: "-.8deg"
     },
     {
-      image: "assets/images/foto04.jpg",
-      alt: "Espaço reservado para a foto 04",
+      image: "assets/images/foto04.png",
+      alt: "Isabella na sala de aula olhando para a câmera",
       date: "",
       text: "[Escreva aqui uma lembrança desta foto.]",
       orientation: "portrait",
       tilt: "1.5deg"
     },
     {
-      image: "assets/images/foto05.jpg",
-      alt: "Espaço reservado para a foto 05",
+      image: "assets/images/foto05.png",
+      alt: "Momento de festa junina com um girassol",
       date: "",
       text: "[Escreva aqui uma lembrança desta foto.]",
       orientation: "portrait",
       tilt: "-1.1deg"
     },
     {
-      image: "assets/images/foto06.jpg",
-      alt: "Espaço reservado para a foto 06",
+      image: "assets/images/foto06.png",
+      alt: "Retrato de Isabella com as unhas vermelhas",
       date: "",
       text: "[Escreva aqui uma lembrança desta foto.]",
       orientation: "wide",
       tilt: "1.7deg"
+    }
+  ];
+
+  /* Fotos exclusivas do capítulo 03. */
+  const chapterThreeMemories = [
+    {
+      image: "assets/images/capitulo03-foto01.png",
+      alt: "Isabella e companhia fazendo uma selfie",
+      text: ""
+    },
+    {
+      image: "assets/images/capitulo03-foto02.png",
+      alt: "Momento divertido na festa junina",
+      text: ""
+    },
+    {
+      image: "assets/images/capitulo03-foto03.png",
+      alt: "Isabella e companhia fazendo careta na escola",
+      text: ""
+    }
+  ];
+
+  /* Fotos exclusivas do capítulo 08. */
+  const chapterEightMemories = [
+    {
+      image: "assets/images/capitulo08-foto01.png",
+      alt: "Isabella e companhia em uma selfie divertida",
+      text: ""
+    },
+    {
+      image: "assets/images/capitulo08-foto02.png",
+      alt: "Isabella e companhia juntos na festa junina",
+      text: ""
     }
   ];
 
@@ -127,6 +160,7 @@
     initialPlaybackRequested: false,
     letterStarted: false,
     galleryIndex: 0,
+    galleryItems: memories,
     focusBeforeModal: null,
     toastTimer: null,
     chocolateBites: 0,
@@ -134,6 +168,7 @@
     fragranceRevealed: false,
     fragranceTimers: [],
     greeceNight: false,
+    beachSunset: false,
     letterSunset: false
   };
 
@@ -151,6 +186,7 @@
     memoryStack: document.getElementById("memoryStack"),
     filmFrames: document.getElementById("filmFrames"),
     beachMemories: document.getElementById("beachMemories"),
+    letterMemories: document.getElementById("letterMemories"),
     snickersButton: document.getElementById("snickersButton"),
     snickersMessage: document.getElementById("snickersMessage"),
     chocolateTreat: document.getElementById("chocolateTreat"),
@@ -168,6 +204,8 @@
     greeceSunHint: document.getElementById("greeceSunHint"),
     greeceVisitMessage: document.getElementById("greeceVisitMessage"),
     greeceResult: document.getElementById("greeceResult"),
+    beach: document.getElementById("beach"),
+    beachSunButton: document.getElementById("beachSunButton"),
     letter: document.getElementById("letter"),
     letterSeaButton: document.getElementById("letterSeaButton"),
     letterSeaHint: document.getElementById("letterSeaHint"),
@@ -231,15 +269,16 @@
     image.alt = memory.alt;
     image.loading = "lazy";
     image.decoding = "async";
-    image.style.display = "none";
+    image.style.opacity = "0";
+    image.style.transition = "opacity 180ms ease";
 
     image.addEventListener("load", function () {
-      image.style.display = "block";
+      image.style.opacity = "1";
       placeholder.hidden = true;
     });
 
     image.addEventListener("error", function () {
-      image.style.display = "none";
+      image.style.opacity = "0";
       placeholder.hidden = false;
     });
 
@@ -258,7 +297,8 @@
 
     memories.forEach(function (memory, index) {
       const card = makeElement("button", "memory-card memory-card--" + memory.orientation);
-      const text = makeElement("span", "memory-card__text", memory.text);
+      const hasCaption = memory.text && memory.text.charAt(0) !== "[";
+      const text = hasCaption ? makeElement("span", "memory-card__text", memory.text) : null;
       const date = makeElement("span", "memory-card__date", memory.date);
       const visual = createImageVisual(memory, "memory-card__visual", "memory-card__placeholder", "Foto " + String(index + 1).padStart(2, "0"));
 
@@ -266,7 +306,9 @@
       card.style.setProperty("--tilt", memory.tilt);
       card.setAttribute("aria-label", "Abrir foto " + String(index + 1));
       card.appendChild(visual);
-      card.appendChild(text);
+      if (text) {
+        card.appendChild(text);
+      }
       if (memory.date) {
         card.appendChild(date);
       }
@@ -279,7 +321,7 @@
     elements.memoryStack.appendChild(memoryFragment);
 
     const frameFragment = document.createDocumentFragment();
-    memories.slice(0, 3).forEach(function (memory, index) {
+    chapterThreeMemories.forEach(function (memory, index) {
       const frame = makeElement("button", "film-frame");
       const visual = createImageVisual(memory, "film-frame__visual", "film-frame__placeholder", "Uma lembrança");
       const frameOffsets = [
@@ -294,7 +336,7 @@
       frame.setAttribute("aria-label", "Abrir foto em destaque " + String(index + 1));
       frame.appendChild(visual);
       frame.addEventListener("click", function () {
-        openGallery(index);
+        openGallery(index, chapterThreeMemories);
       });
       frameFragment.appendChild(frame);
     });
@@ -316,6 +358,21 @@
       beachFragment.appendChild(frame);
     });
     elements.beachMemories.appendChild(beachFragment);
+
+    const letterFragment = document.createDocumentFragment();
+    chapterEightMemories.forEach(function (memory, index) {
+      const photo = makeElement("button", "letter-memory");
+      const visual = createImageVisual(memory, "letter-memory__visual", "letter-memory__placeholder", "Foto " + String(index + 1).padStart(2, "0"));
+
+      photo.type = "button";
+      photo.setAttribute("aria-label", "Abrir foto da carta " + String(index + 1));
+      photo.appendChild(visual);
+      photo.addEventListener("click", function () {
+        openGallery(index, chapterEightMemories);
+      });
+      letterFragment.appendChild(photo);
+    });
+    elements.letterMemories.appendChild(letterFragment);
   }
 
   function showToast(message) {
@@ -795,6 +852,13 @@
       : "O dia voltou. Mas a Grécia continua esperando a gente.";
   }
 
+  function toggleBeachSunset() {
+    state.beachSunset = !state.beachSunset;
+    elements.beach.classList.toggle("is-sunset", state.beachSunset);
+    elements.beachSunButton.setAttribute("aria-pressed", String(state.beachSunset));
+    elements.beachSunButton.setAttribute("aria-label", state.beachSunset ? "Voltar às cores azuis do fim de tarde" : "Ativar o pôr do sol");
+  }
+
   function chooseGreece(event) {
     const button = event.currentTarget;
     const choice = button.getAttribute("data-greece-choice");
@@ -834,9 +898,11 @@
     showToast(state.letterSunset ? "O mar aqueceu as cores do site." : "As cores azuis voltaram.");
   }
 
-  function openGallery(index) {
-    const memory = memories[index];
+  function openGallery(index, galleryItems) {
+    const activeGalleryItems = galleryItems || memories;
+    const memory = activeGalleryItems[index];
     state.galleryIndex = index;
+    state.galleryItems = activeGalleryItems;
     state.focusBeforeModal = document.activeElement;
     elements.galleryModal.hidden = false;
     elements.body.classList.add("modal-open");
@@ -847,7 +913,7 @@
   }
 
   function updateGallery(memory) {
-    elements.galleryCaption.textContent = memory.text;
+    elements.galleryCaption.textContent = memory.text && memory.text.charAt(0) !== "[" ? memory.text : "";
     elements.galleryImage.alt = memory.alt;
     elements.galleryPlaceholder.textContent = "Foto reservada";
     elements.galleryPlaceholder.hidden = false;
@@ -867,9 +933,10 @@
   }
 
   function moveGallery(direction) {
-    const total = memories.length;
+    const activeGalleryItems = state.galleryItems || memories;
+    const total = activeGalleryItems.length;
     state.galleryIndex = (state.galleryIndex + direction + total) % total;
-    updateGallery(memories[state.galleryIndex]);
+    updateGallery(activeGalleryItems[state.galleryIndex]);
   }
 
   function closeGallery() {
@@ -933,6 +1000,7 @@
     state.fragranceRevealed = false;
     clearFragranceTimers();
     state.greeceNight = false;
+    state.beachSunset = false;
     state.letterSunset = false;
     state.queueExpanded = false;
     state.spotifyPaused = true;
@@ -961,6 +1029,9 @@
     elements.greeceSunHint.textContent = "Clique no sol";
     elements.greeceVisitMessage.setAttribute("aria-hidden", "true");
     elements.greeceResult.textContent = "Escolhe uma pequena aventura. E toca no sol para ver a Grécia de outro jeito.";
+    elements.beach.classList.remove("is-sunset");
+    elements.beachSunButton.setAttribute("aria-pressed", "false");
+    elements.beachSunButton.setAttribute("aria-label", "Ativar o pôr do sol");
     elements.letter.classList.remove("is-sunset-theme");
     elements.body.classList.remove("sunset-site-mode");
     elements.letterSeaButton.setAttribute("aria-pressed", "false");
@@ -1017,6 +1088,7 @@
     elements.fragranceStart.addEventListener("click", startFragranceSequence);
     elements.fragranceReveal.addEventListener("click", revealFragranceMessage);
     elements.greeceSunButton.addEventListener("click", toggleGreeceNight);
+    elements.beachSunButton.addEventListener("click", toggleBeachSunset);
     elements.letterSeaButton.addEventListener("click", toggleLetterSeaTheme);
     Array.prototype.slice.call(document.querySelectorAll("[data-greece-choice]")).forEach(function (button) {
       button.addEventListener("click", chooseGreece);
