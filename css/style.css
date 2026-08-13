@@ -1583,86 +1583,136 @@ main {
 .greece-scene__sea::before {
   position: absolute;
   z-index: 1;
-  top: -1.35rem;
-  left: -12%;
-  width: 124%;
-  height: 3.6rem;
+  top: -.8rem;
+  left: -8%;
+  width: 116%;
+  height: 2.35rem;
   content: "";
-  opacity: .76;
+  opacity: .56;
   border-radius: 46% 54% 48% 52% / 52% 58% 42% 48%;
   background: linear-gradient(180deg, var(--greece-wave-light), rgba(23, 108, 151, .12));
   box-shadow:
-    0 1.05rem 0 rgba(190, 231, 246, .08),
-    0 2.15rem 0 rgba(132, 202, 229, .06);
-  transform: translate3d(-2.5%, 0, 0) scaleX(1.04);
-  animation: greeceWaveCrest 6.4s cubic-bezier(.45, .05, .55, .95) infinite alternate;
+    0 .68rem 0 rgba(190, 231, 246, .06),
+    0 1.42rem 0 rgba(132, 202, 229, .045),
+    0 2.08rem 0 rgba(132, 202, 229, .025);
+  transform: translate3d(-1.3%, 0, 0) scaleX(1.02);
+  animation: greeceWaveCrest 10.2s cubic-bezier(.45, .05, .55, .95) infinite alternate;
 }
 
 .greece-scene__sea::after {
   position: absolute;
   z-index: 0;
-  top: .45rem;
-  right: -16%;
+  top: .25rem;
+  right: -10%;
   bottom: -8%;
-  left: -16%;
+  left: -10%;
   content: "";
-  opacity: .78;
+  opacity: .58;
   background:
-    repeating-radial-gradient(ellipse at 50% 0, transparent 0 1.15rem, var(--greece-wave-light) 1.2rem 1.27rem, transparent 1.34rem 2.55rem),
-    repeating-linear-gradient(176deg, transparent 0 1.35rem, var(--greece-wave-soft) 1.4rem 1.46rem, transparent 1.52rem 2.85rem);
-  filter: blur(.08rem);
+    repeating-radial-gradient(ellipse at 50% 0, transparent 0 .72rem, var(--greece-wave-light) .77rem .83rem, transparent .9rem 1.7rem),
+    repeating-linear-gradient(176deg, transparent 0 .82rem, var(--greece-wave-soft) .87rem .93rem, transparent 1rem 1.84rem);
+  filter: blur(.05rem);
   mix-blend-mode: screen;
-  transform: translate3d(-2%, 0, 0) scaleX(1.04);
-  animation: greeceWaterFlow 7.2s ease-in-out infinite alternate;
+  transform: translate3d(-1.15%, 0, 0) scaleX(1.02);
+  animation: greeceWaterFlow 12.4s ease-in-out infinite alternate;
 }
 
 .greece-scene__shore-wave {
-  --greece-wave-travel: clamp(18rem, 42vh, 29rem);
+  --greece-wave-travel: clamp(5.4rem, 12vh, 8.1rem);
+  --greece-wave-mid-travel: clamp(2.9rem, 6vh, 4.5rem);
+  --greece-wave-start-x: .52;
+  --greece-wave-start-y: .4;
+  --greece-wave-mid-x: .68;
+  --greece-wave-mid-y: .52;
+  --greece-wave-end-x: .86;
+  --greece-wave-end-y: .68;
+  --greece-shore-opacity: .46;
+  --greece-shore-delay: 0s;
+  --greece-shore-duration: 5s;
   --greece-shore-foam: rgba(241, 252, 255, .9);
   --greece-shore-soft: rgba(174, 226, 244, .42);
   position: absolute;
   z-index: 3;
-  top: 43%;
-  left: -23%;
-  width: 146%;
-  height: clamp(5rem, 11vw, 8.5rem);
+  top: var(--greece-shore-top, 43%);
+  left: var(--greece-shore-left, -14%);
+  width: var(--greece-shore-width, 128%);
+  height: var(--greece-shore-height, clamp(2.8rem, 5vw, 4.1rem));
   opacity: 0;
-  border-top: clamp(.28rem, .7vw, .52rem) solid var(--greece-shore-foam);
+  border-top: clamp(.1rem, .18vw, .16rem) solid var(--greece-shore-foam);
   border-radius: 50%;
-  background: linear-gradient(180deg, var(--greece-shore-soft), transparent 70%);
-  box-shadow: 0 -.35rem 1rem rgba(231, 250, 255, .2);
-  filter: drop-shadow(0 .45rem .5rem rgba(4, 53, 87, .2));
-  transform: translate3d(0, 0, 0) scale(.4, .24);
+  background: linear-gradient(180deg, rgba(174, 226, 244, .26), transparent 68%);
+  box-shadow: 0 -.2rem .65rem rgba(231, 250, 255, .12);
+  filter: drop-shadow(0 .25rem .38rem rgba(4, 53, 87, .12));
+  transform: translate3d(0, 0, 0) scale(var(--greece-wave-start-x), var(--greece-wave-start-y));
   transform-origin: center top;
+  will-change: opacity, transform;
 }
 
 .greece-scene__shore-wave::before {
   position: absolute;
-  top: .72rem;
-  right: 9%;
-  left: 9%;
-  height: 58%;
+  top: .5rem;
+  right: 11%;
+  left: 11%;
+  height: 48%;
   content: "";
-  opacity: .75;
-  border-top: .16rem solid var(--greece-shore-soft);
+  opacity: .58;
+  border-top: .08rem solid var(--greece-shore-soft);
   border-radius: 50%;
 }
 
 .greece-scene__shore-wave::after {
   position: absolute;
-  top: -.5rem;
-  right: 7%;
-  left: 7%;
-  height: 1.2rem;
+  top: -.34rem;
+  right: 10%;
+  left: 10%;
+  height: .9rem;
   content: "";
-  opacity: .82;
+  opacity: .6;
   background:
-    radial-gradient(circle at 8% 55%, var(--greece-shore-foam) 0 .12rem, transparent .15rem),
-    radial-gradient(circle at 19% 30%, var(--greece-shore-foam) 0 .08rem, transparent .11rem),
-    radial-gradient(circle at 35% 65%, var(--greece-shore-foam) 0 .13rem, transparent .16rem),
-    radial-gradient(circle at 54% 28%, var(--greece-shore-foam) 0 .1rem, transparent .13rem),
-    radial-gradient(circle at 71% 62%, var(--greece-shore-foam) 0 .14rem, transparent .17rem),
-    radial-gradient(circle at 89% 36%, var(--greece-shore-foam) 0 .09rem, transparent .12rem);
+    radial-gradient(circle at 8% 55%, var(--greece-shore-foam) 0 .08rem, transparent .11rem),
+    radial-gradient(circle at 19% 30%, var(--greece-shore-foam) 0 .06rem, transparent .09rem),
+    radial-gradient(circle at 35% 65%, var(--greece-shore-foam) 0 .09rem, transparent .12rem),
+    radial-gradient(circle at 54% 28%, var(--greece-shore-foam) 0 .07rem, transparent .1rem),
+    radial-gradient(circle at 71% 62%, var(--greece-shore-foam) 0 .1rem, transparent .13rem),
+    radial-gradient(circle at 89% 36%, var(--greece-shore-foam) 0 .07rem, transparent .1rem);
+}
+
+.greece-scene__shore-wave--far {
+  --greece-shore-top: 40.5%;
+  --greece-shore-left: -10%;
+  --greece-shore-width: 120%;
+  --greece-shore-height: clamp(2.1rem, 3.8vw, 3rem);
+  --greece-wave-travel: clamp(4.4rem, 9vh, 6.6rem);
+  --greece-wave-mid-travel: clamp(2.3rem, 4.8vh, 3.5rem);
+  --greece-shore-opacity: .32;
+  --greece-shore-delay: .1s;
+  --greece-shore-duration: 5.8s;
+  z-index: 1;
+}
+
+.greece-scene__shore-wave--middle {
+  --greece-shore-top: 43.5%;
+  --greece-shore-left: -13%;
+  --greece-shore-width: 128%;
+  --greece-shore-height: clamp(2.55rem, 4.5vw, 3.55rem);
+  --greece-wave-travel: clamp(5.4rem, 11vh, 8rem);
+  --greece-wave-mid-travel: clamp(2.9rem, 5.8vh, 4.3rem);
+  --greece-shore-opacity: .4;
+  --greece-shore-delay: .65s;
+  --greece-shore-duration: 5.4s;
+  z-index: 2;
+}
+
+.greece-scene__shore-wave--near {
+  --greece-shore-top: 46.5%;
+  --greece-shore-left: -16%;
+  --greece-shore-width: 136%;
+  --greece-shore-height: clamp(2.9rem, 5.1vw, 4rem);
+  --greece-wave-travel: clamp(6.2rem, 13vh, 9.2rem);
+  --greece-wave-mid-travel: clamp(3.3rem, 6.6vh, 4.9rem);
+  --greece-shore-opacity: .48;
+  --greece-shore-delay: 1.2s;
+  --greece-shore-duration: 5s;
 }
 
 .chapter--greece.is-beach-choice .greece-scene {
@@ -1674,7 +1724,7 @@ main {
 }
 
 .chapter--greece.is-beach-arriving .greece-scene__shore-wave {
-  animation: greeceShoreApproach 1.85s cubic-bezier(.16, .68, .22, 1) both;
+  animation: greeceShoreApproach var(--greece-shore-duration) cubic-bezier(.24, .64, .32, 1) var(--greece-shore-delay) both;
 }
 
 .chapter--greece.is-beach-arriving [data-greece-choice="beach"] > span {
@@ -1850,11 +1900,11 @@ main {
 }
 
 .chapter--greece.is-beach-choice .greece-scene__sea::before {
-  animation-duration: 3.5s;
+  animation-duration: 11.4s;
 }
 
 .chapter--greece.is-beach-choice .greece-scene__sea::after {
-  animation-duration: 4.2s;
+  animation-duration: 13.6s;
 }
 
 @keyframes greeceSceneApproach {
@@ -1872,18 +1922,18 @@ main {
 @keyframes greeceShoreApproach {
   0% {
     opacity: 0;
-    transform: translate3d(0, 0, 0) scale(.4, .24);
+    transform: translate3d(0, 0, 0) scale(var(--greece-wave-start-x), var(--greece-wave-start-y));
   }
-  18% {
-    opacity: .66;
+  24% {
+    opacity: var(--greece-shore-opacity);
   }
-  62% {
-    opacity: .94;
-    transform: translate3d(0, clamp(10.5rem, 24vh, 17rem), 0) scale(.82, .66);
+  68% {
+    opacity: var(--greece-shore-opacity);
+    transform: translate3d(0, var(--greece-wave-mid-travel), 0) scale(var(--greece-wave-mid-x), var(--greece-wave-mid-y));
   }
   100% {
     opacity: 0;
-    transform: translate3d(0, var(--greece-wave-travel), 0) scale(1.18, 1.04);
+    transform: translate3d(0, var(--greece-wave-travel), 0) scale(var(--greece-wave-end-x), var(--greece-wave-end-y));
   }
 }
 
@@ -2853,15 +2903,15 @@ main {
 }
 
 @keyframes greeceWaveCrest {
-  0% { transform: translate3d(-2.5%, .12rem, 0) scaleX(1.04); }
-  52% { transform: translate3d(.8%, -.2rem, 0) scaleX(1.01); }
-  100% { transform: translate3d(2.8%, .06rem, 0) scaleX(1.06); }
+  0% { transform: translate3d(-1.3%, .08rem, 0) scaleX(1.02); }
+  52% { transform: translate3d(.45%, -.1rem, 0) scaleX(1); }
+  100% { transform: translate3d(1.5%, .04rem, 0) scaleX(1.03); }
 }
 
 @keyframes greeceWaterFlow {
-  0% { transform: translate3d(-2.4%, .28rem, 0) scaleX(1.04); }
-  48% { transform: translate3d(1%, -.15rem, 0) scaleX(1.01); }
-  100% { transform: translate3d(3.2%, .12rem, 0) scaleX(1.07); }
+  0% { transform: translate3d(-1.15%, .15rem, 0) scaleX(1.02); }
+  48% { transform: translate3d(.55%, -.08rem, 0) scaleX(1); }
+  100% { transform: translate3d(1.7%, .06rem, 0) scaleX(1.04); }
 }
 
 @keyframes chocolatePop {
